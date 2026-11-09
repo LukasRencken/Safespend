@@ -5,139 +5,64 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#0f172a">
-<title>Safespend · Local-First</title>
+<title>Safespend | Local Expense Tracker</title>
 <style>
   :root {
-    --bg: #f1f5f9;
-    --surface: #ffffff;
-    --surface-2: #f8fafc;
-    --border: #e2e8f0;
-    --text: #0f172a;
-    --text-muted: #64748b;
-    --primary: #4f46e5;
-    --primary-hover: #4338ca;
-    --primary-soft: #e0e7ff;
-    --danger: #ef4444;
-    --danger-soft: #fee2e2;
-    --success: #10b981;
-    --warning: #f59e0b;
-    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-    --radius: 1rem;
+    --bg: #f8fafc; --surface: #ffffff; --surface-2: #f1f5f9;
+    --border: #e2e8f0; --text: #0f172a; --text-muted: #64748b;
+    --primary: #2563eb; --primary-hover: #1d4ed8; --primary-soft: #eff6ff;
+    --danger: #ef4444; --danger-soft: #fef2f2; --success: #10b981;
+    --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    --radius: 0.75rem;
   }
-  
   [data-theme="dark"] {
-    --bg: #0f172a;
-    --surface: #1e293b;
-    --surface-2: #334155;
-    --border: #475569;
-    --text: #f8fafc;
-    --text-muted: #94a3b8;
-    --primary: #6366f1;
-    --primary-hover: #818cf8;
-    --primary-soft: #312e81;
-    --danger: #f87171;
-    --danger-soft: #7f1d1d;
-    --success: #34d399;
-    --warning: #fbbf24;
-    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+    --bg: #0f172a; --surface: #1e293b; --surface-2: #334155;
+    --border: #475569; --text: #f8fafc; --text-muted: #94a3b8;
+    --primary: #3b82f6; --primary-hover: #60a5fa; --primary-soft: #1e3a8a;
+    --danger: #f87171; --danger-soft: #7f1d1d; --success: #34d399;
+    --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.3);
     --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4);
-    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.5);
   }
-
   * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; }
+  body { background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; padding: 1rem; display: flex; justify-content: center; transition: background 0.3s, color 0.3s; }
+  .app { max-width: 800px; width: 100%; display: flex; flex-direction: column; gap: 1rem; }
   
-  body {
-    background: var(--bg);
-    color: var(--text);
-    margin: 0;
-    min-height: 100vh;
-    padding: 1rem;
-    display: flex;
-    justify-content: center;
-    transition: background 0.3s, color 0.3s;
-  }
-
-  .app {
-    max-width: 800px;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  /* Typography & Header */
-  header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.5rem 0;
-  }
-  h1 { margin: 0; font-size: 1.5rem; font-weight: 800; letter-spacing: -0.5px; display: flex; align-items: center; gap: 0.5rem; }
-  .badge { font-size: 0.65rem; background: var(--primary-soft); color: var(--primary); padding: 0.2rem 0.6rem; border-radius: 99px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+  /* Header */
+  header { display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; }
+  h1 { margin: 0; font-size: 1.4rem; font-weight: 700; letter-spacing: -0.5px; color: var(--text); }
+  .badge { font-size: 0.65rem; background: var(--primary-soft); color: var(--primary); padding: 0.2rem 0.6rem; border-radius: 99px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-left: 0.5rem; vertical-align: middle; }
   
   /* Buttons */
-  .btn {
-    background: var(--surface); border: 1px solid var(--border); color: var(--text);
-    padding: 0.6rem 1rem; border-radius: 0.75rem; font-weight: 600; font-size: 0.875rem;
-    cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
-    transition: all 0.2s; box-shadow: var(--shadow-sm);
-  }
+  .btn { background: var(--surface); border: 1px solid var(--border); color: var(--text); padding: 0.6rem 1rem; border-radius: var(--radius); font-weight: 600; font-size: 0.875rem; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; transition: all 0.2s; box-shadow: var(--shadow-sm); }
   .btn:active { transform: scale(0.97); }
   .btn-primary { background: var(--primary); border-color: var(--primary); color: white; }
   .btn-primary:hover { background: var(--primary-hover); }
-  .btn-icon { padding: 0.6rem; border-radius: 50%; border: none; background: var(--surface); box-shadow: var(--shadow-sm); aspect-ratio: 1; }
-  .btn-sm { padding: 0.4rem 0.8rem; font-size: 0.75rem; border-radius: 0.5rem; }
-  .btn-danger { color: var(--danger); border-color: var(--danger-soft); background: var(--danger-soft); }
+  .btn-icon { padding: 0.5rem; border-radius: var(--radius); border: 1px solid var(--border); background: var(--surface); box-shadow: var(--shadow-sm); cursor: pointer; font-size: 0.8rem; font-weight: 600; color: var(--text); }
+  .btn-sm { padding: 0.4rem 0.8rem; font-size: 0.75rem; }
+  .btn-danger { color: var(--danger); border-color: var(--danger); background: var(--danger-soft); }
   
   /* Action Grid */
-  .action-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 0.5rem;
-  }
+  .action-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 0.5rem; }
 
-  /* Stats Panel */
-  .stats-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.75rem;
-    background: var(--surface);
-    padding: 1.25rem;
-    border-radius: var(--radius);
-    box-shadow: var(--shadow-md);
-    border: 1px solid var(--border);
-  }
+  /* Stats */
+  .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; background: var(--surface); padding: 1.25rem; border-radius: var(--radius); box-shadow: var(--shadow-md); border: 1px solid var(--border); }
   .stat-box { display: flex; flex-direction: column; gap: 0.25rem; }
   .stat-label { font-size: 0.7rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
   .stat-value { font-size: 1.5rem; font-weight: 800; font-variant-numeric: tabular-nums; letter-spacing: -0.5px; }
   
-  /* Controls & Filters */
+  /* Controls */
   .controls { display: flex; flex-direction: column; gap: 0.75rem; background: var(--surface); padding: 1rem; border-radius: var(--radius); border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
   .filter-row { display: flex; gap: 0.5rem; flex-wrap: wrap; }
-  .input-group { flex: 1; min-width: 140px; display: flex; flex-direction: column; gap: 0.25rem; }
-  
-  input, select {
-    width: 100%; padding: 0.6rem 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem;
-    background: var(--surface-2); color: var(--text); font-size: 0.875rem; font-weight: 500;
-    outline: none; transition: border-color 0.2s;
-  }
+  .input-group { flex: 1; min-width: 120px; display: flex; flex-direction: column; gap: 0.25rem; }
+  input, select { width: 100%; padding: 0.6rem 0.75rem; border: 1px solid var(--border); border-radius: 0.5rem; background: var(--surface-2); color: var(--text); font-size: 0.875rem; font-weight: 500; outline: none; font-family: inherit; }
   input:focus, select:focus { border-color: var(--primary); }
   
   /* Table */
-  .table-wrapper {
-    background: var(--surface); border-radius: var(--radius); border: 1px solid var(--border);
-    box-shadow: var(--shadow-md); overflow: hidden; display: flex; flex-direction: column;
-  }
+  .table-wrapper { background: var(--surface); border-radius: var(--radius); border: 1px solid var(--border); box-shadow: var(--shadow-md); overflow: hidden; display: flex; flex-direction: column; }
   .table-scroll { overflow-x: auto; max-height: 400px; overflow-y: auto; }
   table { width: 100%; border-collapse: collapse; font-size: 0.875rem; white-space: nowrap; }
-  th {
-    position: sticky; top: 0; background: var(--surface-2); z-index: 10;
-    text-align: left; padding: 0.75rem; font-size: 0.7rem; font-weight: 700;
-    color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;
-    border-bottom: 1px solid var(--border); cursor: pointer;
-  }
+  th { position: sticky; top: 0; background: var(--surface-2); z-index: 10; text-align: left; padding: 0.75rem; font-size: 0.7rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; border-bottom: 1px solid var(--border); cursor: pointer; }
   td { padding: 0.75rem; border-bottom: 1px solid var(--border); vertical-align: middle; }
   tr:last-child td { border-bottom: none; }
   tr:hover td { background: var(--surface-2); }
@@ -147,55 +72,40 @@
   .amount.positive { color: var(--success); }
   .amount.negative { color: var(--danger); }
   
-  /* Modals */
-  .modal-backdrop {
-    position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
-    display: none; align-items: center; justify-content: center; z-index: 100; padding: 1rem;
-  }
+  /* Modals & Toasts */
+  .modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; z-index: 100; padding: 1rem; }
   .modal-backdrop.open { display: flex; }
-  .modal {
-    background: var(--surface); border-radius: var(--radius); width: 100%; max-width: 450px;
-    padding: 1.5rem; box-shadow: var(--shadow-lg); border: 1px solid var(--border);
-    max-height: 90vh; overflow-y: auto;
-  }
-  .modal h2 { margin: 0 0 1rem 0; font-size: 1.25rem; font-weight: 800; }
+  .modal { background: var(--surface); border-radius: var(--radius); width: 100%; max-width: 400px; padding: 1.5rem; box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.5); border: 1px solid var(--border); }
+  .modal h2 { margin: 0 0 1rem 0; font-size: 1.15rem; font-weight: 700; }
   .form-row { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1rem; }
   .form-row label { font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; }
   .modal-actions { display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 1rem; }
   
-  /* Utility */
+  .toast-container { position: fixed; bottom: 1rem; left: 50%; transform: translateX(-50%); z-index: 200; display: flex; flex-direction: column; gap: 0.5rem; width: 90%; max-width: 350px; }
+  .toast { background: var(--text); color: var(--bg); padding: 0.75rem 1rem; border-radius: var(--radius); font-size: 0.875rem; font-weight: 600; text-align: center; box-shadow: var(--shadow-md); }
+  
   .hidden { display: none !important; }
   .empty-state { text-align: center; padding: 3rem 1rem; color: var(--text-muted); font-weight: 500; }
-  .empty-state .big { font-size: 3rem; margin-bottom: 1rem; opacity: 0.5; }
-  
-  /* Toast */
-  .toast-container { position: fixed; bottom: 1rem; left: 50%; transform: translateX(-50%); z-index: 200; display: flex; flex-direction: column; gap: 0.5rem; width: 90%; max-width: 350px; }
-  .toast { background: var(--text); color: var(--bg); padding: 0.75rem 1rem; border-radius: 0.75rem; font-size: 0.875rem; font-weight: 600; text-align: center; box-shadow: var(--shadow-lg); animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
-  @keyframes slideUp { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+  .empty-state .icon { font-size: 2rem; margin-bottom: 0.5rem; opacity: 0.5; font-weight: 800; }
 </style>
 </head>
 <body>
 <div class="app">
   <header>
-    <h1>💸 Safespend <span class="badge">Local</span></h1>
+    <h1>Safespend <span class="badge">Local-first</span></h1>
     <div style="display:flex; gap:0.5rem;">
-      <button class="btn-icon" id="themeToggle">🌙</button>
-      <button class="btn-icon" id="undoBtn" disabled>↶</button>
-      <button class="btn-icon" id="redoBtn" disabled>↷</button>
+      <button class="btn-icon" id="themeToggle">Dark</button>
     </div>
   </header>
 
-  <!-- Main Actions -->
   <div class="action-grid">
-    <button class="btn btn-primary" id="addBtn">➕ Add</button>
-    <label for="csvFileInput" class="btn">⬆ Import</label>
+    <button class="btn btn-primary" id="addBtn">Add Expense</button>
+    <label for="csvFileInput" class="btn">Import CSV</label>
     <input type="file" id="csvFileInput" accept=".csv" style="display:none">
-    <button class="btn" id="exportBtn">⬇ Export</button>
-    <button class="btn" id="loadSampleBtn">🧪 Sample</button>
-    <button class="btn btn-danger" id="clearAllBtn">🗑 Clear</button>
+    <button class="btn" id="exportBtn">Export CSV</button>
+    <button class="btn btn-danger" id="clearAllBtn">Clear All</button>
   </div>
 
-  <!-- Stats -->
   <div class="stats-grid">
     <div class="stat-box">
       <span class="stat-label">Total Expenses</span>
@@ -215,27 +125,24 @@
     </div>
   </div>
 
-  <!-- Bulk Actions (only show if selected) -->
   <div id="bulkBar" class="hidden" style="display:flex; gap:0.5rem;">
     <button class="btn btn-sm btn-danger" id="bulkDeleteBtn">Delete Selected</button>
     <button class="btn btn-sm" id="bulkCategoryBtn">Change Category</button>
   </div>
 
-  <!-- Controls -->
   <div class="controls">
     <div class="filter-row">
       <div class="input-group">
-        <input type="text" id="searchInput" placeholder="🔍 Search descriptions...">
+        <input type="text" id="searchInput" placeholder="Search transactions...">
       </div>
-      <div class="input-group" style="flex: 0 0 130px;">
+      <div class="input-group" style="flex: 0 0 120px;">
         <select id="currencySelect" title="Currency">
-          <option value="USD">USD ($)</option>
           <option value="ZAR" selected>ZAR (R)</option>
+          <option value="USD">USD ($)</option>
           <option value="EUR">EUR (€)</option>
           <option value="GBP">GBP (£)</option>
           <option value="AUD">AUD ($)</option>
           <option value="CAD">CAD ($)</option>
-          <option value="JPY">JPY (¥)</option>
         </select>
       </div>
     </div>
@@ -252,13 +159,12 @@
     </div>
   </div>
 
-  <!-- Table -->
   <div class="table-wrapper">
     <div class="table-scroll">
       <table id="expenseTable">
         <thead>
           <tr>
-            <th style="width: 30px;"><input type="checkbox" id="selectAllCheckbox" style="width:auto; padding:0;"></th>
+            <th style="width: 30px;"><input type="checkbox" id="selectAllCheckbox" style="width:auto; padding:0; cursor:pointer;"></th>
             <th data-sort="date">Date ▼</th>
             <th data-sort="description">Description</th>
             <th data-sort="category">Category</th>
@@ -269,8 +175,8 @@
         <tbody id="tableBody"></tbody>
       </table>
       <div id="emptyMessage" class="empty-state hidden">
-        <div class="big">📭</div>
-        <div>No expenses yet.</div>
+        <div class="icon">Empty</div>
+        <div>No transactions found.</div>
       </div>
     </div>
   </div>
@@ -282,7 +188,7 @@
     <h2 id="expenseModalTitle">Add Expense</h2>
     <div class="form-row">
       <label>Amount</label>
-      <input type="number" id="modalAmount" step="0.01" placeholder="0.00" style="font-size: 1.25rem; font-weight: 700;">
+      <input type="number" id="modalAmount" step="0.01" placeholder="0.00" style="font-size: 1.15rem; font-weight: 700;">
     </div>
     <div class="form-row">
       <label>Description</label>
@@ -297,9 +203,9 @@
       <label>Date</label>
       <input type="date" id="modalDate">
     </div>
-    <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:1rem;">
-      <input type="checkbox" id="modalRecurring" style="width:auto;">
-      <label for="modalRecurring" style="font-size:0.875rem; font-weight:600; color:var(--text);">Recurring monthly</label>
+    <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.5rem;">
+      <input type="checkbox" id="modalRecurring" style="width:auto; cursor:pointer;">
+      <label for="modalRecurring" style="font-size:0.875rem; font-weight:600; color:var(--text); cursor:pointer;">Recurring monthly</label>
     </div>
     <div class="modal-actions">
       <button class="btn" id="modalCancel">Cancel</button>
@@ -329,10 +235,10 @@
     <h2>Import Data</h2>
     <div id="importSummary" style="font-size:0.875rem; margin-bottom:1rem;"></div>
     <div style="display:flex; flex-direction:column; gap:0.5rem; margin-bottom:1rem;">
-      <label style="display:flex; align-items:center; gap:0.5rem; font-size:0.875rem;">
+      <label style="display:flex; align-items:center; gap:0.5rem; font-size:0.875rem; cursor:pointer;">
         <input type="radio" name="importMode" value="append" checked> Append to existing
       </label>
-      <label style="display:flex; align-items:center; gap:0.5rem; font-size:0.875rem;">
+      <label style="display:flex; align-items:center; gap:0.5rem; font-size:0.875rem; cursor:pointer;">
         <input type="radio" name="importMode" value="replace"> Replace everything
       </label>
     </div>
@@ -350,7 +256,7 @@
   'use strict';
   
   // === Constants ===
-  const STORAGE_KEY = 'safespend_v4';
+  const STORAGE_KEY = 'safespend_pro_v1';
   const THEME_KEY = 'safespend_theme';
   const CURRENCY_KEY = 'safespend_currency';
   
@@ -381,7 +287,11 @@
   }
 
   function formatCurrency(n) {
-    return new Intl.NumberFormat('en-ZA', { style: 'currency', currency: currency }).format(n);
+    try {
+      return new Intl.NumberFormat('en-ZA', { style: 'currency', currency: currency }).format(n);
+    } catch (e) {
+      return currency + ' ' + n.toFixed(2);
+    }
   }
   
   function toast(msg) {
@@ -449,23 +359,19 @@
   }
 
   // === Render ===
-  function render() {
-    // Filter
+  function getFilteredExpenses() {
     const q = $('#searchInput').value.toLowerCase();
     const cat = $('#categoryFilter').value;
     const f = $('#dateFrom').value;
     const t = $('#dateTo').value;
     
-    let filtered = expenses.filter(e => {
+    return expenses.filter(e => {
       if (q && !(e.description.toLowerCase().includes(q) || e.category.toLowerCase().includes(q))) return false;
       if (cat && e.category !== cat) return false;
       if (f && e.date < f) return false;
       if (t && e.date > t) return false;
       return true;
-    });
-
-    // Sort
-    filtered.sort((a,b) => {
+    }).sort((a,b) => {
       let av = a[sortKey], bv = b[sortKey];
       if (sortKey === 'amount') { av = +av; bv = +bv; }
       else { av = String(av).toLowerCase(); bv = String(bv).toLowerCase(); }
@@ -473,6 +379,10 @@
       if (av > bv) return sortDir === 'asc' ? 1 : -1;
       return 0;
     });
+  }
+
+  function render() {
+    const filtered = getFilteredExpenses();
 
     // Stats
     const total = expenses.reduce((s,e) => s + e.amount, 0);
@@ -498,12 +408,12 @@
       const sel = selectedIds.has(e.id);
       const cls = e.amount < 0 ? 'negative' : 'positive';
       return `<tr>
-        <td><input type="checkbox" class="row-select" data-id="${e.id}" ${sel?'checked':''} style="width:auto;"></td>
+        <td><input type="checkbox" class="row-select" data-id="${e.id}" ${sel?'checked':''} style="width:auto; cursor:pointer;"></td>
         <td>${e.date}</td>
-        <td>${escapeHtml(e.description)} ${e.recurring ? '🔁' : ''}</td>
+        <td>${escapeHtml(e.description)} ${e.recurring ? '<span style="font-size:0.7rem; color:var(--text-muted);">(R)</span>' : ''}</td>
         <td><span class="cat-badge">${escapeHtml(e.category)}</span></td>
         <td class="amount ${cls}" style="text-align:right;">${formatCurrency(e.amount)}</td>
-        <td><button class="btn-icon" style="padding:0.3rem;" data-del="${e.id}" style="color:var(--danger);">🗑</button></td>
+        <td><button class="btn-icon" style="padding:0.3rem; border:none; color:var(--danger);" data-del="${e.id}">X</button></td>
       </tr>`;
     }).join('');
 
@@ -545,7 +455,7 @@
     
     save(); render();
     $('#expenseModal').classList.remove('open');
-    toast('Saved!');
+    toast('Saved');
   }
 
   // === Import / Export ===
@@ -569,7 +479,7 @@
     a.href = URL.createObjectURL(blob);
     a.download = `safespend_${todayISO()}.csv`;
     a.click();
-    toast('Exported!');
+    toast('Exported');
   }
 
   // === Events ===
@@ -580,12 +490,12 @@
     // Theme
     const savedTheme = localStorage.getItem(THEME_KEY) || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
     document.documentElement.setAttribute('data-theme', savedTheme);
-    $('#themeToggle').textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+    $('#themeToggle').textContent = savedTheme === 'dark' ? 'Light' : 'Dark';
     $('#themeToggle').onclick = () => {
       const nt = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
       document.documentElement.setAttribute('data-theme', nt);
       localStorage.setItem(THEME_KEY, nt);
-      $('#themeToggle').textContent = nt === 'dark' ? '☀️' : '🌙';
+      $('#themeToggle').textContent = nt === 'dark' ? 'Light' : 'Dark';
     };
 
     // Currency
@@ -637,12 +547,11 @@
       }
     };
 
-    // Select All
+    // Select All (Fixed to only affect current filtered view)
     $('#selectAllCheckbox').onchange = (e) => {
-      const checked = e.target.checked;
-      const filtered = expenses.filter(x => !$('#searchInput').value || x.description.toLowerCase().includes($('#searchInput').value.toLowerCase()));
-      if (checked) filtered.forEach(x => selectedIds.add(x.id));
-      else selectedIds.clear();
+      const filtered = getFilteredExpenses();
+      if (e.target.checked) filtered.forEach(x => selectedIds.add(x.id));
+      else filtered.forEach(x => selectedIds.delete(x.id));
       render();
     };
 
@@ -663,16 +572,8 @@
     $('#dateTo').onchange = render;
 
     // Load / Clear
-    $('#loadSampleBtn').onclick = () => {
-      expenses.push(
-        { id: uid(), date: todayISO(), amount: 450.00, description: 'Groceries', category: 'Food' },
-        { id: uid(), date: todayISO(), amount: 125.50, description: 'Fuel', category: 'Transport' },
-        { id: uid(), date: todayISO(), amount: -50.00, description: 'Refund', category: 'Other' }
-      );
-      save(); render(); toast('Sample loaded');
-    };
     $('#clearAllBtn').onclick = () => {
-      if (confirm('Delete EVERYTHING?')) { expenses = []; save(); render(); }
+      if (confirm('Delete all transactions? This cannot be undone.')) { expenses = []; save(); render(); }
     };
 
     // Import / Export
@@ -685,11 +586,10 @@
       save(); render();
       $('#importModal').classList.remove('open');
       pendingImport = [];
-      toast('Imported!');
+      toast('Imported');
     };
     $('#importCancel').onclick = () => { $('#importModal').classList.remove('open'); pendingImport = []; };
 
-    // Init render
     render();
   }
 
